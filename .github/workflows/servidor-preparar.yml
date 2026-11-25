@@ -1,0 +1,110 @@
+# Operación de INFRA (botón «Run workflow»): deja el EC2 listo para servir
+# onchained.info como web ESTÁTICA. Sustituye a teclear en el servidor.
+#
+# Modos:
+#   diagnostico — SOLO LEE: nginx instalado, qué escucha en :80, si existe la
+#                 carpeta de la web y qué dice nginx del dominio.
+#   aplicar     — instala nginx si falta, crea /var/www/onchained (propiedad del
+#                 usuario de despliegue, para que rsync pueda escribir), escribe
+#                 el bloque de nginx para onchained.info, lo valida y recarga.
+#
+# Cloudflare en modo Flexible, como cellsforge: nginx solo escucha en :80 y el
+# TLS lo pone Cloudflare de cara al visitante.
+name: "Servidor: preparar EC2"
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Qué hacer"
+        required: true
+        default: diagnostico
+        type: choice
+        options: [diagnostico, aplicar]
+      domain:
+        description: "Dominio que sirve nginx"
+        required: true
+        default: onchained.info
+        type: string
+
+jobs:
+  servidor:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: ${{ inputs.mode }} en el EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            set -u
+            MODE="${{ inputs.mode }}"; DOMAIN="${{ inputs.domain }}"; ROOT=/var/www/onchained
+            if command -v apt-get >/dev/null; then PKG=apt; elif command -v dnf >/dev/null; then PKG=dnf; else PKG=yum; fi
+            echo "== Sistema: $(. /etc/os-release && echo "$PRETTY_NAME") · gestor: $PKG · usuario: $(whoami)"
+            echo "== sudo sin contraseña: $(sudo -n true 2>/dev/null && echo sí || echo NO)"
+            echo "== nginx: $(command -v nginx >/dev/null && nginx -v 2>&1 || echo 'no')"
+            echo "== ¿Algo escucha en :80?"; (sudo -n ss -ltnp 2>/dev/null || ss -ltn) | grep ":80 " || echo "   (nada)"
+            echo "== Carpeta $ROOT:"; ls -ld "$ROOT" 2>/dev/null || echo "   (no existe)"
+            echo "== nginx menciona $DOMAIN en:"; sudo -n grep -rl "$DOMAIN" /etc/nginx 2>/dev/null || echo "   (ningún fichero)"
+            echo
+
+            [ "$MODE" = "aplicar" ] || { echo "Modo diagnóstico: no se ha tocado nada."; exit 0; }
+
+            set -e
+            echo "== [1/3] nginx"
+            if ! command -v nginx >/dev/null; then
+              if [ "$PKG" = apt ]; then sudo -n apt-get update -qq && sudo -n DEBIAN_FRONTEND=noninteractive apt-get install -y -qq nginx;
+              else sudo -n $PKG install -y -q nginx; fi
+            fi
+            sudo -n systemctl enable nginx >/dev/null 2>&1 || true
+
+            echo "== [2/3] Carpeta de la web"
+            sudo -n mkdir -p "$ROOT"
+            sudo -n chown -R "$(whoami)":"$(id -gn)" "$ROOT"
+            sudo -n chmod 755 /var/www "$ROOT"
+            [ -f "$ROOT/index.html" ] || echo "<!doctype html><title>OnChained</title><p>Pendiente de desplegar." > "$ROOT/index.html"
+
+            echo "== [3/3] Bloque de nginx"
+            CONF_DIR=/etc/nginx/conf.d
+            [ -d /etc/nginx/sites-enabled ] && CONF_DIR=/etc/nginx/sites-enabled
+            CONF="$CONF_DIR/onchained.conf"
+            [ -f "$CONF" ] && sudo -n cp "$CONF" "$CONF.bak.$(date +%s)"
+            sudo -n tee "$CONF" >/dev/null <<NGINX
+            # onchained.info → web estática en $ROOT. Escrito por el workflow
+            # «Servidor: preparar EC2». Cloudflare Flexible: solo HTTP.
+            server {
+                listen 80;
+                server_name $DOMAIN www.$DOMAIN;
+                root $ROOT;
+                index index.html;
+
+                real_ip_header CF-Connecting-IP;
+
+                gzip on;
+                gzip_types text/css application/javascript image/svg+xml;
+
+                location ~* \.(css|js|svg|png|jpg|webp|woff2)$ {
+                    expires 7d;
+                    add_header Cache-Control "public";
+                }
+
+                location / {
+                    try_files \$uri \$uri/ =404;
+                }
+            }
+            NGINX
+            if sudo -n nginx -t; then
+              sudo -n systemctl reload nginx || sudo -n systemctl start nginx
+              echo "   nginx recargado con $CONF"
+            else
+              echo "::error::nginx -t ha fallado; se restaura la configuración anterior"
+              LAST=$(ls -t "$CONF".bak.* 2>/dev/null | head -1); [ -n "$LAST" ] && sudo -n mv "$LAST" "$CONF" || sudo -n rm -f "$CONF"
+              exit 1
+            fi
+
+            echo "== Comprobación con Host $DOMAIN:"
+            curl -s -o /dev/null -w "   HTTP %{http_code}\n" --max-time 5 -H "Host: $DOMAIN" http://127.0.0.1/ || true
+            echo
+            echo "Listo. Ahora lanza «Deploy to Production» y, en Cloudflare, el registro A de $DOMAIN (y www) a la IP del EC2 con el proxy activo, SSL Flexible y «Always Use HTTPS»."

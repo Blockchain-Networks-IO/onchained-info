@@ -1,0 +1,45 @@
+# Publica la web en el EC2 (mismo esquema que mucho-finance y cellsforge):
+# cada push a `production` sincroniza los ficheros estáticos a /var/www/onchained
+# por rsync. No hay build: la web es HTML, CSS y JS a pelo.
+name: Deploy to Production
+
+on:
+  push:
+    branches: [production]
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to EC2
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Comprobar el HTML
+        run: |
+          test -f index.html && test -f styles.css && test -f main.js
+          grep -q "<title>" index.html
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+
+      - name: Sincronizar la web
+        run: |
+          rsync -az --delete \
+            --exclude '.git' --exclude '.github' --exclude 'README.md' \
+            -e "ssh -i ~/.ssh/deploy_key" \
+            ./ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/onchained/
+
+      - name: Comprobar que nginx la sirve
+        run: |
+          ssh -i ~/.ssh/deploy_key ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} \
+            'curl -s -o /dev/null -w "HTTP %{http_code}\n" --max-time 5 -H "Host: onchained.info" http://127.0.0.1/'

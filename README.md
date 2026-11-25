@@ -2,18 +2,16 @@
 
 Web de servicios de OnChained (Series 1 de CellsForge LLC). HTML, CSS y JS a pelo, sin build: `index.html` es la página entera.
 
-## Publicar
+## Ramas
 
-Cada push a `main` la publica en GitHub Pages (workflow «Publicar en GitHub Pages»). La primera vez hay que activarlo desde el navegador:
+`main` es donde se trabaja; **`production` despliega** al hacer push (como en mucho-finance y cellsforge). Para publicar: PR de `main` a `production` y mergear, o «Run workflow» de «Deploy to Production».
 
-1. Settings › Pages › **Source: GitHub Actions**.
-2. Settings › Pages › **Custom domain: `onchained.info`** y marcar «Enforce HTTPS» cuando el DNS resuelva.
-3. En el DNS de `onchained.info`:
-   - `A` → `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
-   - `AAAA` → `2606:50c0:8000::153`, `2606:50c0:8001::153`, `2606:50c0:8002::153`, `2606:50c0:8003::153`
-   - `CNAME www` → `blockchain-networks-io.github.io`
+## Publicar en el EC2 (la primera vez)
 
-El fichero `CNAME` del repo es lo que le dice a Pages qué dominio sirve: no lo borres.
+1. **Secrets del repo** (Settings › Secrets and variables › Actions): `SSH_HOST`, `SSH_USER` y `SSH_KEY`, los mismos que en cellsforge (es el mismo EC2).
+2. **«Servidor: preparar EC2»** en Actions: primero en modo `diagnostico` para ver el estado; luego `aplicar`. Instala nginx si falta, crea `/var/www/onchained` y escribe el bloque de nginx para `onchained.info` (solo HTTP: Cloudflare Flexible pone el TLS).
+3. **«Deploy to Production»**: sincroniza los ficheros por rsync y comprueba que nginx contesta 200.
+4. **Cloudflare**: registro `A` de `onchained.info` y de `www` a la IP del EC2 con el proxy (nube naranja), SSL en *Flexible* y «Always Use HTTPS».
 
 ## Editar
 
