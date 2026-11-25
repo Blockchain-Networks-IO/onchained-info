@@ -17,5 +17,5 @@ Web de servicios de OnChained (Series 1 de CellsForge LLC). HTML, CSS y JS a pel
 
 - Textos y secciones: `index.html`.
 - Colores y maqueta: `styles.css` (los colores están arriba, en `:root`).
-- El formulario de contacto abre el cliente de correo hacia `hello@onchained.info`. Para recibirlo sin cliente de correo, cambiar el `action` por un servicio tipo Formspree.
+- El formulario de contacto abre el cliente de correo hacia `info@onchained.info`. Para recibirlo sin cliente de correo, cambiar el `action` por un servicio tipo Formspree.
 - `og.svg` es la imagen de las previsualizaciones (X, LinkedIn, WhatsApp). Si alguna red no acepta SVG, exportarla a PNG 1200×630 con el mismo nombre y cambiar la etiqueta `og:image`.
