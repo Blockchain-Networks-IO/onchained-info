@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OnChained — Web3 & DeFi engineering for serious teams</title>
+  <meta name="description" content="OnChained designs, builds, audits and runs smart contracts, DeFi protocols, wallets and on-chain infrastructure for third parties. Production code, not prototypes." />
+  <meta property="og:title" content="OnChained — Web3 & DeFi engineering" />
+  <meta property="og:description" content="Smart contracts, DeFi protocols, wallets and on-chain infrastructure, built for production." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://onchained.info/" />
+  <meta property="og:image" content="https://onchained.info/og.svg" />
+  <meta name="theme-color" content="#0a0f1c" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="bg" aria-hidden="true">
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div class="grid"></div>
+  </div>
+
+  <header class="nav">
+    <a class="brand" href="#top" aria-label="OnChained home">
+      <svg class="logo" viewBox="0 0 32 32" aria-hidden="true"><path d="M9 11a5 5 0 0 1 5-5h2a5 5 0 0 1 0 10h-2" fill="none" stroke="url(#g)" stroke-width="3" stroke-linecap="round"/><path d="M23 21a5 5 0 0 1-5 5h-2a5 5 0 0 1 0-10h2" fill="none" stroke="url(#g)" stroke-width="3" stroke-linecap="round"/><defs><linearGradient id="g" x1="0" y1="0" x2="32" y2="32"><stop offset="0" stop-color="#6ee7f9"/><stop offset="1" stop-color="#a78bfa"/></linearGradient></defs></svg>
+      <span>OnChained</span>
+    </a>
+    <nav class="links">
+      <a href="#services">Services</a>
+      <a href="#work">Work</a>
+      <a href="#process">Process</a>
+      <a href="#stack">Stack</a>
+      <a href="#contact" class="btn btn-sm">Start a project</a>
+    </nav>
+    <button class="burger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <p class="eyebrow"><span class="dot"></span> Web3 &amp; DeFi engineering studio</p>
+      <h1>Ship on-chain products<br /><span class="grad">that survive mainnet.</span></h1>
+      <p class="lead">We design, build, audit and operate smart contracts, DeFi protocols, wallets and the infrastructure around them, for teams that need production code and a partner who answers the phone when the chain does something unexpected.</p>
+      <div class="cta">
+        <a class="btn" href="#contact">Start a project</a>
+        <a class="btn btn-ghost" href="#work">See what we've built</a>
+      </div>
+      <ul class="proof">
+        <li><strong>$120M+</strong><span>moved through code we wrote</span></li>
+        <li><strong>8 chains</strong><span>EVM, Bitcoin, Solana</span></li>
+        <li><strong>0</strong><span>exploits in production</span></li>
+      </ul>
+    </section>
+
+    <section id="services" class="section">
+      <h2>What we do</h2>
+      <p class="sub">Full-stack on-chain engineering. Pick a piece or hand us the whole thing.</p>
+      <div class="cards">
+        <article class="card">
+          <div class="icon">⟠</div>
+          <h3>Smart contracts</h3>
+          <p>Solidity on EVM, Anchor on Solana. Upgradeable or immutable, with the test suite, the deployment scripts and the verification already done.</p>
+          <ul><li>ERC-20 / 721 / 1155 / 4337</li><li>Vesting, staking, treasuries</li><li>Gas-optimised, fuzz-tested</li></ul>
+        </article>
+        <article class="card">
+          <div class="icon">◎</div>
+          <h3>DeFi protocols</h3>
+          <p>Lending, vaults, structured products, perps integrations, delta-neutral strategies. We have built on top of Aave, Morpho, Uniswap, Hyperliquid, Lighter and Pendle.</p>
+          <ul><li>Protocol design &amp; risk modelling</li><li>Integrations &amp; keepers</li><li>Backtesting before launch</li></ul>
+        </article>
+        <article class="card">
+          <div class="icon">▣</div>
+          <h3>Wallets &amp; custody</h3>
+          <p>Non-custodial multi-chain wallets, MPC and TEE signing, hardware-wallet support (Ledger, Trezor, OneKey), multisig, account abstraction and privacy layers.</p>
+          <ul><li>Turnkey, Safe, ERC-4337</li><li>Bitcoin PSBT &amp; Taproot</li><li>Stealth addresses, E2EE vaults</li></ul>
+        </article>
+        <article class="card">
+          <div class="icon">⌁</div>
+          <h3>Infrastructure</h3>
+          <p>Indexers, RPC routing with failover, bundlers, paymasters, bridges and the monitoring that tells you something broke before your users do.</p>
+          <ul><li>Multi-provider RPC &amp; data</li><li>Alerting on silent failures</li><li>Cost control per call</li></ul>
+        </article>
+        <article class="card">
+          <div class="icon">⛨</div>
+          <h3>Audits &amp; reviews</h3>
+          <p>Line-by-line review of your contracts and your off-chain signing paths. Threat models that cover the wallet, the backend and the human in between.</p>
+          <ul><li>Manual review + fuzzing</li><li>Signing-flow threat models</li><li>Fix verification</li></ul>
+        </article>
+        <article class="card">
+          <div class="icon">◈</div>
+          <h3>Tokenised legal</h3>
+          <p>On-chain company registries, NFT-gated memberships, series LLC tooling with encrypted documents. We built CellsForge; we can build yours.</p>
+          <ul><li>NFT passes &amp; subscriptions</li><li>On-chain document hashing</li><li>E2EE records, no backend</li></ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="work" class="section">
+      <h2>Selected work</h2>
+      <p class="sub">Products in production today, built end to end by this team.</p>
+      <div class="work">
+        <article class="case">
+          <span class="tag">Wallet · Multi-chain</span>
+          <h3>Non-custodial wallet for 2,000+ members</h3>
+          <p>Web wallet on Turnkey with EVM, Bitcoin, Solana and Lightning. Stealth deposit addresses, confidential balances via intent rails, hardware signing, multisig, DeFi positions read on-chain across eight networks, and an E2EE vault with zero server-side plaintext.</p>
+          <ul class="facts"><li>React 19 · tRPC · viem</li><li>Ledger · Trezor · OneKey</li><li>Safe · ERC-4337 · Pimlico</li></ul>
+        </article>
+        <article class="case">
+          <span class="tag">DeFi · Lending</span>
+          <h3>Buy a membership without selling your bitcoin</h3>
+          <p>One-click flow that swaps USDC to WBTC, supplies it to Aave V3 on the user's behalf with credit delegation, borrows against it and pays the subscription. Health-factor maths, liquidation alerts and an on-chain record of every entry, read from the contract's own events.</p>
+          <ul class="facts"><li>Aave V3 · Chainlink</li><li>EIP-712 orders</li><li>Arbitrum One</li></ul>
+        </article>
+        <article class="case">
+          <span class="tag">Legal · NFTs</span>
+          <h3>CellsForge — Series LLCs as NFTs</h3>
+          <p>Registry where a Master LLC is an ERC-721 and every Series a token minted by its clone. Operating agreements hashed on-chain, documents encrypted client-side and stored as contract bytecode, membership-gated issuance with free tiers and consumable passes. No database anywhere.</p>
+          <ul class="facts"><li>EIP-1167 clones · SSTORE2</li><li>AES-GCM from wallet signature</li><li>Verified on Sourcify &amp; Arbiscan</li></ul>
+        </article>
+        <article class="case">
+          <span class="tag">Trading · Automation</span>
+          <h3>Delta-neutral farming across venues</h3>
+          <p>Server-side execution with scoped Turnkey delegate keys that can trade but never withdraw. Paired positions on RISEx and Lighter, position-led fills, automatic unwinding of a legged entry, daily P&amp;L measured from balances rather than estimated.</p>
+          <ul class="facts"><li>Turnkey policies</li><li>Hyperliquid · Lighter · RISEx</li><li>Funding-rate scanner</li></ul>
+        </article>
+      </div>
+    </section>
+
+    <section id="process" class="section">
+      <h2>How we work</h2>
+      <p class="sub">Short cycles, written decisions, nothing deployed that wasn't tested first.</p>
+      <ol class="steps">
+        <li><span>01</span><h3>Scope</h3><p>A one-week discovery. We leave you with a written design, a threat model and a fixed quote. If we're not the right team, we say so.</p></li>
+        <li><span>02</span><h3>Build</h3><p>Weekly demos on a testnet or fork. Every contract ships with tests, deployment scripts and a verification kit your team can run from a browser.</p></li>
+        <li><span>03</span><h3>Launch</h3><p>Mainnet deploy with you watching. Monitoring and alerting wired before the first user, not after the first incident.</p></li>
+        <li><span>04</span><h3>Run</h3><p>Optional retainer: upgrades, upstream changes, incident response. Protocols change without notice; someone has to be watching.</p></li>
+      </ol>
+    </section>
+
+    <section id="stack" class="section">
+      <h2>Stack we're fluent in</h2>
+      <div class="chips">
+        <span>Solidity</span><span>Foundry</span><span>Hardhat</span><span>viem</span><span>wagmi</span><span>Rust / Anchor</span><span>TypeScript</span><span>React</span><span>Node</span><span>Turnkey</span><span>Safe</span><span>ERC-4337</span><span>Aave</span><span>Morpho</span><span>Uniswap v3/v4</span><span>Hyperliquid</span><span>Lighter</span><span>Pendle</span><span>Bitcoin PSBT</span><span>Taproot</span><span>Lightning</span><span>Solana</span><span>Arbitrum</span><span>Base</span><span>HyperEVM</span><span>OpenTimestamps</span>
+      </div>
+    </section>
+
+    <section id="principles" class="section principles">
+      <h2>Three rules we don't break</h2>
+      <div class="rules">
+        <div><h3>Nothing fails silently.</h3><p>Every path that can break without an error gets something that watches it. An API that renames a field should page a human, not return zero.</p></div>
+        <div><h3>A failed read is never a zero balance.</h3><p>Users don't lose money because an indexer had a bad minute. Unknown is unknown, and the UI says so.</p></div>
+        <div><h3>Keys stay with their owner.</h3><p>We build so that we can't move your users' funds, and we document exactly what we could do if we wanted to.</p></div>
+      </div>
+    </section>
+
+    <section id="contact" class="section contact">
+      <h2>Tell us what you're building</h2>
+      <p class="sub">We reply within two business days with questions, not a sales deck.</p>
+      <form class="form" action="mailto:hello@onchained.info" method="post" enctype="text/plain">
+        <label>Name<input name="name" required autocomplete="name" /></label>
+        <label>Email<input name="email" type="email" required autocomplete="email" /></label>
+        <label class="full">What do you need?<textarea name="project" rows="5" required placeholder="A vault on Arbitrum, an audit of our staking contract, a wallet with hardware signing…"></textarea></label>
+        <label>Budget<select name="budget"><option>Under $25k</option><option>$25k – $75k</option><option>$75k – $200k</option><option>$200k+</option><option>Not sure yet</option></select></label>
+        <label>Timeline<select name="timeline"><option>ASAP</option><option>1 – 3 months</option><option>3 – 6 months</option><option>Exploring</option></select></label>
+        <button class="btn full" type="submit">Send</button>
+        <p class="alt">Or write to <a href="mailto:hello@onchained.info">hello@onchained.info</a></p>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div>
+      <strong>OnChained</strong> · Web3 &amp; DeFi engineering
+      <p>OnChained is Series 1 of CellsForge LLC, a Wyoming series limited liability company. Its contracts and obligations are separate from those of the Master LLC and of any other Series.</p>
+    </div>
+    <div class="foot-links">
+      <a href="mailto:hello@onchained.info">hello@onchained.info</a>
+      <a href="https://github.com/Blockchain-Networks-IO" rel="noopener">GitHub</a>
+      <a href="https://arbiscan.io/token/0x6156956C79d20785d81440E7FD43a6303D15c49F?a=1" rel="noopener">Series record on Arbitrum</a>
+    </div>
+    <p class="copy">© <span id="year"></span> OnChained. Software is provided as agreed in writing; nothing here is legal, tax or investment advice.</p>
+  </footer>
+
+  <script src="main.js" defer></script>
+</body>
+</html>
